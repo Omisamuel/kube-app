@@ -25,7 +25,6 @@ spec:
           ports:
             - name: vprodb-port
               containerPort: 3306
-
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
@@ -33,9 +32,10 @@ spec:
                   name: app-secret
                   key: db-pass
       nodeSelector:
-        zone: us-east-1a
+        zone: us-east-2b
       volumes:
         - name: vpro-db-data
+          # This AWS EBS volume must already exist.
           awsElasticBlockStore:
-            volumeID: vol-08d5af18f8eaa2ea1
+            volumeID: vol-0cf3d659eba6861d4
             fsType: ext4
