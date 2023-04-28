@@ -14,26 +14,17 @@ spec:
       labels:
         app: vproapp
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: disktype
-                    operator: In
-                    values:
-                      - ssd
       containers:
         - name: vproapp
           image: vprofomis/vprofileapp:V1
           ports:
             - name: vproapp-port
               containerPort: 8080
-
       tolerations:
-        - key: node-role.kubernetes.io/control-plane
-          operator: Exists
-          effect: NoSchedule
+        - key: "taintkey1"
+          operator: "Equal"
+          value: "taintvalue1"
+          effect: "NoSchedule"
       initContainers:
         - name: mydb
           image: busybox
