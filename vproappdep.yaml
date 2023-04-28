@@ -14,12 +14,6 @@ spec:
       labels:
         app: vproapp
     spec:
-      containers:
-        - name: vproapp
-          image: vprofomis/vprofileapp:V1
-          ports:
-            - name: vproapp-port
-              containerPort: 8080
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -29,7 +23,13 @@ spec:
                     operator: In
                     values:
                       - ssd
-                      - hdd
+      containers:
+        - name: vproapp
+          image: vprofomis/vprofileapp:V1
+          ports:
+            - name: vproapp-port
+              containerPort: 8080
+
       tolerations:
         - key: node-role.kubernetes.io/control-plane
           operator: Exists
