@@ -31,7 +31,7 @@ spec:
               containerPort: 8080
 
       tolerations:
-        - key: "taintkey1"
+        - key: "KubernetesCluster"
           operator: "Equal"
           value: "taintvalue1"
           effect: "NoSchedule"
