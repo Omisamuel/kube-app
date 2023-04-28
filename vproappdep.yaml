@@ -20,8 +20,15 @@ spec:
           ports:
             - name: vproapp-port
               containerPort: 8080
-      nodeSelector:
-        disktype: ssd
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: disktype
+                    operator: In
+                    values:
+                      - ssd
       tolerations:
         - key: node-role.kubernetes.io/control-plane
           operator: Exists
