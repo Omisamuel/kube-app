@@ -24,3 +24,16 @@ spec:
         - key: node-role.kubernetes.io/control-plane
           operator: Exists
           effect: NoSchedule
+      initContainers:
+        - name: mydb
+          image: busybox
+          command:
+            - sh
+            - "-c"
+            - "until nslookup vprodb.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for vprodb; sleep 2; done;"
+        - name: memcache
+          image: busybox
+          command:
+            - sh
+            - "-c"
+            - "until nslookup vprocache01.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for vprocache01; sleep 2; done;"
