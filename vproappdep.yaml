@@ -9,6 +9,8 @@ spec:
   selector:
     matchLabels:
       app: vproapp
+      key: "KubernetesCluster"
+
   template:
     metadata:
       labels:
@@ -33,7 +35,7 @@ spec:
       tolerations:
         - key: "KubernetesCluster"
           operator: "Equal"
-          value: "taintvalue1"
+          value: "Clustervalue1"
           effect: "NoSchedule"
       initContainers:
         - name: mydb
