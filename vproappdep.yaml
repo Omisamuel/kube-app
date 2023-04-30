@@ -9,43 +9,21 @@ spec:
   selector:
     matchLabels:
       app: vproapp
-      key: "KubernetesCluster"
   template:
     metadata:
       labels:
         app: vproapp
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: disktype
-                    operator: In
-                    values:
-                      - ssd
       containers:
         - name: vproapp
           image: vprofomis/vprofileapp:V1
           ports:
             - name: vproapp-port
               containerPort: 8080
-
-      tolerations:
-        - key: "KubernetesCluster"
-          operator: "Equal"
-          value: "Clustervalue1"
-          effect: "NoSchedule"
       initContainers:
         - name: mydb
           image: busybox
-          command:
-            - sh
-            - "-c"
-            - "until nslookup vprodb.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for vprodb; sleep 2; done;"
+          command: ['sh', '-c', 'until nslookup vprodb; do echo waiting for vprodb; sleep 2; done;']
         - name: memcache
           image: busybox
-          command:
-            - sh
-            - "-c"
-            - "until nslookup vprocache01.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for vprocache01; sleep 2; done;"
+          command: ['sh', '-c', 'until nslookup vprocache01; do echo waiting for vprocache01; sleep 2; done;']
