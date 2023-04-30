@@ -20,6 +20,11 @@ spec:
           ports:
             - name: vproapp-port
               containerPort: 8080
+      tolerations:
+        - key: "KubernetesCluster"
+          operator: "Equal"
+          value: "Clustervalue1"
+          effect: "NoSchedule"
       initContainers:
         - name: mydb
           image: busybox
