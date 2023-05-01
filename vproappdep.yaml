@@ -9,6 +9,7 @@ spec:
   selector:
     matchLabels:
       app: vproapp
+      key: "KubernetesCluster"
   template:
     metadata:
       labels:
