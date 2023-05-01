@@ -14,30 +14,16 @@ spec:
       labels:
         app: vproapp
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: disktype
-                    operator: In
-                    values:
-                      - ssd
       containers:
         - name: vproapp
           image: vprofomis/vprofileapp:V1
           ports:
             - name: vproapp-port
               containerPort: 8080
-      tolerations:
-        - key: "KubernetesCluster"
-          operator: "Equal"
-          value: "Clustervalue1"
-          effect: "NoSchedule"
       initContainers:
-        - name: mydb
+        - name: init-mydb
           image: busybox
-          command: ['sh', '-c', 'until nslookup vprodb; do echo waiting for vprodb; sleep 2; done;']
-        - name: memcache
+          command: ['sh', '-c', 'until nslookup vprodb; do echo waiting for mydb; sleep 2; done;']
+        - name: init-memcache
           image: busybox
-          command: ['sh', '-c', 'until nslookup vprocache01; do echo waiting for vprocache01; sleep 2; done;']
+          command: ['sh', '-c', 'until nslookup vprocache01; do echo waiting for mydb; sleep 2; done;']
